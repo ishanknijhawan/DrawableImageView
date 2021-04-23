@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import java.io.FileOutputStream
 
 
 class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListener {
@@ -14,7 +13,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListen
     lateinit var mPaint: Paint
     private var mEmboss: MaskFilter? = null
     private var mBlur: MaskFilter? = null
-    lateinit var outputStream: FileOutputStream
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +30,12 @@ class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListen
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        menu.add(0, FingerPaintActivity.COLOR_MENU_ID, 0, "Color").setShortcut('3', 'c')
-        menu.add(0, FingerPaintActivity.EMBOSS_MENU_ID, 0, "Emboss").setShortcut('4', 's')
-        menu.add(0, FingerPaintActivity.BLUR_MENU_ID, 0, "Blur").setShortcut('5', 'z')
-        menu.add(0, FingerPaintActivity.ERASE_MENU_ID, 0, "Erase").setShortcut('5', 'z')
-        menu.add(0, FingerPaintActivity.SRCATOP_MENU_ID, 0, "SrcATop").setShortcut('5', 'z')
-        menu.add(0, FingerPaintActivity.Save, 0, "Save").setShortcut('5', 'z')
+        menu.add(0, COLOR_MENU_ID, 0, "Color").setShortcut('3', 'c')
+        menu.add(0, EMBOSS_MENU_ID, 0, "Emboss").setShortcut('4', 's')
+        menu.add(0, BLUR_MENU_ID, 0, "Blur").setShortcut('5', 'z')
+        menu.add(0, ERASE_MENU_ID, 0, "Erase").setShortcut('5', 'z')
+        menu.add(0, SRCATOP_MENU_ID, 0, "SrcATop").setShortcut('5', 'z')
+        menu.add(0, Save, 0, "Save").setShortcut('5', 'z')
         return true
     }
 
@@ -51,11 +49,11 @@ class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListen
         mPaint.alpha = 0xFF
         //to get bitmap from drawingView, use drawingView.drawingCache
         when (item.itemId) {
-            FingerPaintActivity.COLOR_MENU_ID -> {
+            COLOR_MENU_ID -> {
                 ColorPickerDialog(this, this, mPaint.color).show()
                 return true
             }
-            FingerPaintActivity.EMBOSS_MENU_ID -> {
+            EMBOSS_MENU_ID -> {
                 if (mPaint.maskFilter !== mEmboss) {
                     mPaint.maskFilter = mEmboss
                 } else {
@@ -63,7 +61,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListen
                 }
                 return true
             }
-            FingerPaintActivity.BLUR_MENU_ID -> {
+            BLUR_MENU_ID -> {
                 if (mPaint.maskFilter !== mBlur) {
                     mPaint.maskFilter = mBlur
                 } else {
@@ -71,12 +69,12 @@ class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListen
                 }
                 return true
             }
-            FingerPaintActivity.ERASE_MENU_ID -> {
+            ERASE_MENU_ID -> {
                 mPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
                 mPaint.alpha = 0x80
                 return true
             }
-            FingerPaintActivity.SRCATOP_MENU_ID -> {
+            SRCATOP_MENU_ID -> {
                 mPaint.xfermode = PorterDuffXfermode(
                     PorterDuff.Mode.SRC_ATOP
                 )
@@ -89,5 +87,14 @@ class MainActivity : AppCompatActivity(), ColorPickerDialog.OnColorChangedListen
 
     override fun colorChanged(color: Int) {
         mPaint.color = color
+    }
+
+    companion object {
+        const val COLOR_MENU_ID = Menu.FIRST
+        const val EMBOSS_MENU_ID = Menu.FIRST + 1
+        const val BLUR_MENU_ID = Menu.FIRST + 2
+        const val ERASE_MENU_ID = Menu.FIRST + 3
+        const val SRCATOP_MENU_ID = Menu.FIRST + 4
+        const val Save = Menu.FIRST + 5
     }
 }
