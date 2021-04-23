@@ -17,7 +17,7 @@ class DrawableImageView @JvmOverloads constructor(
     private var mCanvas: Canvas? = null
     private val mPath: Path = Path()
     private val mBitmapPaint: Paint = Paint(Paint.DITHER_FLAG)
-    private val mPaint = Paint()
+    val mPaint = Paint()
 
 
     private val circlePaint: Paint = Paint()
@@ -31,7 +31,7 @@ class DrawableImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawBitmap(mBitmap!!, 0F, 0F, mBitmapPaint)
-        canvas.drawPath(mPath, mPaint!!)
+        canvas.drawPath(mPath, mPaint)
         canvas.drawPath(circlePath, circlePaint)
     }
 
